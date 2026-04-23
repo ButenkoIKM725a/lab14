@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <windows.h>
+
+using namespace std;
+
+void generateFibonacci(long long arr[], int n) {
+    if (n >= 1) arr[0] = 0;
+    if (n >= 2) arr[1] = 1;
+    for (int i = 2; i < n; i++) {
+        arr[i] = arr[i - 1] + arr[i - 2];
+    }
+}
+int interpolationSearch(long long arr[], int size, long long key) {
+    int left = 0;
+    int right = size - 1;
+    while (left <= right && key >= arr[left] && key <= arr[right]) {
+        if (arr[left] == arr[right]) {
+            if (arr[left] == key) return left;
+            break;
+        }
+        int mid = left + ((key - arr[left]) * (right - left)) / (arr[right] - arr[left]);
+        if (arr[mid] == key) {
+            return mid;
+        }
+        if (arr[mid] < key) {
+            left = mid + 1;
+        }
+        else {
+            right = mid - 1;
+        }
+    }
+    return -1;
+}
+int main() {
+    const int array_size = 30;
+    long long array[array_size];
+    long long search_num;
+    generateFibonacci(array, array_size);
+    cout << "Masiv chisel fibonachi:" << endl;
+    for (int i = 0; i < array_size; i++) {
+        cout << array[i] << " ";
+    }
+    cout << endl << endl;
+    cout << "Vvedit chislo fibonachi, yake treba znayti: ";
+    cin >> search_num;
+    int result = interpolationSearch(array, array_size, search_num);
+    if (result != -1) {
+        cout << "Element " << search_num << " maye index " << result << endl;
+    }
+    else {
+        cout << "Elementa " << search_num << " nemae v masivi" << endl;
+    }
+    return 0;
+}
